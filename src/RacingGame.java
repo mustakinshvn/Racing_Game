@@ -20,6 +20,7 @@ public class RacingGame extends JFrame implements  ActionListener,KeyListener {
     private int bikeX;
     private Random random;
     private int timeElapsed;
+    private ActionEvent e;
 
     public RacingGame() {
         setTitle("Racing Bike Game");
@@ -40,6 +41,20 @@ public class RacingGame extends JFrame implements  ActionListener,KeyListener {
         addKeyListener(this); // Register the key listener to the frame
         setFocusable(true);   // Ensure the frame is focused to receive key events
     }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        moveElements();
+        repaint();
+    }
+
+    private void moveElements() {
+
+
+        timeElapsed += GAME_SPEED; // Track the time elapsed
+    }
+
 
 
 
@@ -76,11 +91,6 @@ public class RacingGame extends JFrame implements  ActionListener,KeyListener {
         EventQueue.invokeLater(() -> {
             RacingGame racingGame = new RacingGame();
             racingGame.setVisible(true);
-        });
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
+   });
+}
 }
