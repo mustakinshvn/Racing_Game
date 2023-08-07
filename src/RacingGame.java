@@ -20,6 +20,7 @@ public class RacingGame extends JFrame implements  ActionListener,KeyListener {
     private static final int CAR_SPEED = 2;
     private static final int SPEED_INCREMENT = 1;
     public static final int INITIAL_DELAY=1000;
+    private  int score=0;
 
 
     private int bikeX;
@@ -38,6 +39,7 @@ public class RacingGame extends JFrame implements  ActionListener,KeyListener {
 
         bikeX = WIDTH / 2 - BIKE_WIDTH / 2; // Bike starts at the center of the screen
         carX = -CAR_WIDTH; // Car starts off the screen initially
+        score = 0;
         carSpeed = CAR_SPEED;
         timeElapsed = 0;
 
@@ -55,6 +57,7 @@ public class RacingGame extends JFrame implements  ActionListener,KeyListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         moveElements();
+        checkCollisions();
         repaint();
     }
 
@@ -82,9 +85,18 @@ public class RacingGame extends JFrame implements  ActionListener,KeyListener {
 
         for (Point car : cars) {
             Rectangle carRect = new Rectangle(car.x, car.y, CAR_WIDTH, CAR_HEIGHT);
-
+            if (bikeRect.intersects(carRect)) {
+                gameOver();
+                return;
+            }
 
         }
+    }
+    private void gameOver() {
+        // Implement your game over logic here
+        // For simplicity, we just display a message and exit the game.
+        JOptionPane.showMessageDialog(this, "Game Over!\nYour score: " + score);
+        System.exit(0);
     }
 
 
@@ -99,6 +111,8 @@ public class RacingGame extends JFrame implements  ActionListener,KeyListener {
         for (Point car : cars) {
             g.fillRect(car.x, car.y, CAR_WIDTH, CAR_HEIGHT);
         }
+        g.setColor(Color.BLACK);
+        g.drawString("Score: " + score, 10, 20);
     }
 
 
