@@ -18,7 +18,10 @@ public class RacingGame extends JFrame implements ActionListener, KeyListener {
     private static final int GIFT_BOX_HEIGHT = 30;
     private static final int GAME_SPEED = 10; // Milliseconds
     private static final int BIKE_SPEED = 4;  // Bike's horizontal movement speed
-    private static final int CAR_SPEED = 2;  // Car's vertical movement speed
+    private static final int CAR_SPEED = 5;  // Car's vertical movement speed
+    private static final int CAR_HEIGHT = 60;
+    private static final int CAR_WIDTH = 30;
+
 
     private static final int INITIAL_DELAY = 1000; // Initial delay without other vehicles (in milliseconds)
 
@@ -32,6 +35,7 @@ public class RacingGame extends JFrame implements ActionListener, KeyListener {
 
 
     private List<Point> gift;
+    private List<Point> cars;
     private Random random;
 
     public RacingGame() {
@@ -50,6 +54,7 @@ public class RacingGame extends JFrame implements ActionListener, KeyListener {
 
 
         gift = new ArrayList<>();
+        cars = new ArrayList<>();
         random = new Random();
 
         Timer timer = new Timer(GAME_SPEED, this);
@@ -92,6 +97,16 @@ public class RacingGame extends JFrame implements ActionListener, KeyListener {
         Rectangle bikeRect = new Rectangle(bikeX, HEIGHT - BIKE_HEIGHT, BIKE_WIDTH, BIKE_HEIGHT);
         //Point giftBoxCenter = new Point(giftBoxX + GIFT_BOX_WIDTH / 2, giftBoxY + GIFT_BOX_HEIGHT / 2);
 
+
+        for (Point car : cars) {
+            Rectangle carRect = new Rectangle(car.x, car.y, CAR_WIDTH, CAR_HEIGHT);
+
+            if (bikeRect.intersects(carRect)) {
+                gameOver();
+                return;
+            }
+        }
+
         for (Point gf : gift) {
             Rectangle gifRect = new Rectangle(gf.x, gf.y, GIFT_BOX_WIDTH, GIFT_BOX_HEIGHT);
 
@@ -101,7 +116,12 @@ public class RacingGame extends JFrame implements ActionListener, KeyListener {
             }
         }
     }
-
+    private void gameOver() {
+        // Implement your game over logic here
+        // For simplicity, we just display a message and exit the game.
+        JOptionPane.showMessageDialog(this, "Game Over!\nYour score: " + score);
+        System.exit(0);
+    }
     @Override
     public void paint(Graphics g) {
         super.paint(g);
